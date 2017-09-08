@@ -1,0 +1,760 @@
+
+Setting environment for using XAMPP for Windows.
+721322@203-IMAC17 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use mytestdb
+Database changed
+MariaDB [mytestdb]> show tables;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| student            |
++--------------------+
+1 row in set (0.08 sec)
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+------+------+-------+
+| sid  | Snm       | Gender | city | Age  | marks |
++------+-----------+--------+------+------+-------+
+|    1 | abc       | Male   | NULL |  100 |  NULL |
+|    2 | Harjinder | Male   | NULL |   23 |  NULL |
+|    3 | Harry     | male   | NULL |   24 |  NULL |
+|    4 | parmeet   | female | NULL |   22 |  NULL |
+|    5 | cherry    | female | NULL |   21 |  NULL |
++------+-----------+--------+------+------+-------+
+5 rows in set (0.09 sec)
+
+MariaDB [mytestdb]> UPDATE student SET city='toronto' WHERE sid=1;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> UPDATE student SET sid =5 WHERE sid=1 AND gender='male';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    5 | abc       | Male   | toronto |  100 |  NULL |
+|    2 | Harjinder | Male   | NULL    |   23 |  NULL |
+|    3 | Harry     | male   | NULL    |   24 |  NULL |
+|    4 | parmeet   | female | NULL    |   22 |  NULL |
+|    5 | cherry    | female | NULL    |   21 |  NULL |
++------+-----------+--------+---------+------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE student SET city='delhi' where sid=2;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> UPDATE student SET city='delhi',marks=300 where sid=2;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    5 | abc       | Male   | toronto |  100 |  NULL |
+|    2 | Harjinder | Male   | delhi   |   23 |   300 |
+|    3 | Harry     | male   | NULL    |   24 |  NULL |
+|    4 | parmeet   | female | NULL    |   22 |  NULL |
+|    5 | cherry    | female | NULL    |   21 |  NULL |
++------+-----------+--------+---------+------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE student SET city='delhi',marks=400 where sid=3;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    5 | abc       | Male   | toronto |  100 |  NULL |
+|    2 | Harjinder | Male   | delhi   |   23 |   300 |
+|    3 | Harry     | male   | delhi   |   24 |   400 |
+|    4 | parmeet   | female | NULL    |   22 |  NULL |
+|    5 | cherry    | female | NULL    |   21 |  NULL |
++------+-----------+--------+---------+------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE student SET city='toronto',marks=100 where sid=4;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    5 | abc       | Male   | toronto |  100 |  NULL |
+|    2 | Harjinder | Male   | delhi   |   23 |   300 |
+|    3 | Harry     | male   | delhi   |   24 |   400 |
+|    4 | parmeet   | female | toronto |   22 |   100 |
+|    5 | cherry    | female | NULL    |   21 |  NULL |
++------+-----------+--------+---------+------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM STUDENT WHERE sid=5;
+Query OK, 2 rows affected (0.06 sec)
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    2 | Harjinder | Male   | delhi   |   23 |   300 |
+|    3 | Harry     | male   | delhi   |   24 |   400 |
+|    4 | parmeet   | female | toronto |   22 |   100 |
++------+-----------+--------+---------+------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from student;
++------+-----------+--------+---------+------+-------+
+| sid  | Snm       | Gender | city    | Age  | marks |
++------+-----------+--------+---------+------+-------+
+|    2 | Harjinder | Male   | delhi   |   23 |   300 |
+|    3 | Harry     | male   | delhi   |   24 |   400 |
+|    4 | parmeet   | female | toronto |   22 |   100 |
++------+-----------+--------+---------+------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select VERSION();
++-----------------+
+| VERSION()       |
++-----------------+
+| 10.1.21-MariaDB |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select USER();
++----------------+
+| USER()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select sysdate;
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'field list'
+MariaDB [mytestdb]> select current_time();
++----------------+
+| current_time() |
++----------------+
+| 18:03:43       |
++----------------+
+1 row in set (0.05 sec)
+
+MariaDB [mytestdb]> select sys_date();
+ERROR 1305 (42000): FUNCTION mytestdb.sys_date does not exist
+MariaDB [mytestdb]> select current_date();
++----------------+
+| current_date() |
++----------------+
+| 2017-09-07     |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select curdate();
++------------+
+| curdate()  |
++------------+
+| 2017-09-07 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT now();
++---------------------+
+| now()               |
++---------------------+
+| 2017-09-07 18:06:04 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT cuurent_time();
+ERROR 1305 (42000): FUNCTION mytestdb.cuurent_time does not exist
+MariaDB [mytestdb]> select current_timestamp();
++---------------------+
+| current_timestamp() |
++---------------------+
+| 2017-09-07 18:07:00 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select AVG(marks) FROM STUDENT;
++------------+
+| AVG(marks) |
++------------+
+|   266.6667 |
++------------+
+1 row in set (0.02 sec)
+
+MariaDB [mytestdb]> select sysdate(), AVG(marks) FROM STUDENT;
++---------------------+------------+
+| sysdate()           | AVG(marks) |
++---------------------+------------+
+| 2017-09-07 18:11:53 |   266.6667 |
++---------------------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select NOW(),sid,snm FROM STUDENT;
++---------------------+------+-----------+
+| NOW()               | sid  | snm       |
++---------------------+------+-----------+
+| 2017-09-07 18:13:02 |    2 | Harjinder |
+| 2017-09-07 18:13:02 |    3 | Harry     |
+| 2017-09-07 18:13:02 |    4 | parmeet   |
++---------------------+------+-----------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select CONCAT(snm,city) from student;
++------------------+
+| CONCAT(snm,city) |
++------------------+
+| Harjinderdelhi   |
+| Harrydelhi       |
+| parmeettoronto   |
++------------------+
+3 rows in set (0.06 sec)
+
+MariaDB [mytestdb]> select CONCAT(snm,'living in', city) from student;
++-------------------------------+
+| CONCAT(snm,'living in', city) |
++-------------------------------+
+| Harjinderliving indelhi       |
+| Harryliving indelhi           |
+| parmeetliving intoronto       |
++-------------------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select CONCAT(snm, 'living in' ,  city) from student;
++----------------------------------+
+| CONCAT(snm, 'living in' ,  city) |
++----------------------------------+
+| Harjinderliving indelhi          |
+| Harryliving indelhi              |
+| parmeetliving intoronto          |
++----------------------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select CONCAT(snm,  'is going to' , city) from student;
++------------------------------------+
+| CONCAT(snm,  'is going to' , city) |
++------------------------------------+
+| Harjinderis going todelhi          |
+| Harryis going todelhi              |
+| parmeetis going totoronto          |
++------------------------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT FORMAT(12332.123456, 4);
++-------------------------+
+| FORMAT(12332.123456, 4) |
++-------------------------+
+| 12,332.1235             |
++-------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT FORMAT(12332.123456,2);
++------------------------+
+| FORMAT(12332.123456,2) |
++------------------------+
+| 12,332.12              |
++------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT FORMAT(12332.2,2,'de_DE');
++---------------------------+
+| FORMAT(12332.2,2,'de_DE') |
++---------------------------+
+| 12.332,20                 |
++---------------------------+
+1 row in set (0.01 sec)
+
+MariaDB [mytestdb]> show create table student\g
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table   | Create Table                                                                                                                                                                                                                                                      |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| student | CREATE TABLE `student` (
+  `sid` int(5) DEFAULT NULL,
+  `Snm` varchar(25) DEFAULT NULL,
+  `Gender` varchar(10) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `Age` int(3) DEFAULT NULL,
+  `marks` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE TABLE manu( code integer(3) primary key, name Varchar(50) not null);
+Query OK, 0 rows affected (0.31 sec)
+
+MariaDB [mytestdb]> CREATE TABLE prod( code int(3) primary key, name varchar(50) not null,price float(9,3), manu int(3) REFERENCES manu(code));
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(1,'Sony');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(2,'Creative Labs');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(3,'Hewlett-Packard');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(4,'Iomega');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(5,'Fujitsu');
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Manu(Code,Name) VALUES(6,'Winchester');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(1,'Hard drive',240,5);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(2,'Memory',120,6);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(3,'ZIP drive',150,4);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(4,'Floppy disk',5,6);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(5,'Monitor',240,1);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(6,'DVD drive',180,2);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(7,'CD drive',90,2);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(8,'Printer',270,3);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(9,'Toner cartridge',66,3);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manufacturer) VALUES(10,'DVD burner',180,2);
+ERROR 1054 (42S22): Unknown column 'Manufacturer' in 'field list'
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(1,'Hard drive',240,5);
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(2,'Memory',120,6);
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(3,'ZIP drive',150,4);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(4,'Floppy disk',5,6);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(5,'Monitor',240,1);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(6,'DVD drive',180,2);
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(7,'CD drive',90,2);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(8,'Printer',270,3);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(9,'Toner cartridge',66,3);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Prod(Code,Name,Price,Manu) VALUES(10,'DVD burner',180,2);
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> select * from products;
+ERROR 1146 (42S02): Table 'mytestdb.products' doesn't exist
+MariaDB [mytestdb]> select * from prod;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    1 | Hard drive      | 240.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|   10 | DVD burner      | 180.000 |    2 |
++------+-----------------+---------+------+
+10 rows in set (0.06 sec)
+
+MariaDB [mytestdb]> SELECT name FROM products;
+ERROR 1146 (42S02): Table 'mytestdb.products' doesn't exist
+MariaDB [mytestdb]> SELECT name FROM prod;
++-----------------+
+| name            |
++-----------------+
+| Hard drive      |
+| Memory          |
+| ZIP drive       |
+| Floppy disk     |
+| Monitor         |
+| DVD drive       |
+| CD drive        |
+| Printer         |
+| Toner cartridge |
+| DVD burner      |
++-----------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT name,price FROM prod;
++-----------------+---------+
+| name            | price   |
++-----------------+---------+
+| Hard drive      | 240.000 |
+| Memory          | 120.000 |
+| ZIP drive       | 150.000 |
+| Floppy disk     |   5.000 |
+| Monitor         | 240.000 |
+| DVD drive       | 180.000 |
+| CD drive        |  90.000 |
+| Printer         | 270.000 |
+| Toner cartridge |  66.000 |
+| DVD burner      | 180.000 |
++-----------------+---------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT name,price FROM  prod;
++-----------------+---------+
+| name            | price   |
++-----------------+---------+
+| Hard drive      | 240.000 |
+| Memory          | 120.000 |
+| ZIP drive       | 150.000 |
+| Floppy disk     |   5.000 |
+| Monitor         | 240.000 |
+| DVD drive       | 180.000 |
+| CD drive        |  90.000 |
+| Printer         | 270.000 |
+| Toner cartridge |  66.000 |
+| DVD burner      | 180.000 |
++-----------------+---------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select name from student where price<=200;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [mytestdb]> select name from student where price>=200;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [mytestdb]> SELECT name, CONCAT('$',price),CONCAT(price*100,'cents') from prod;
++-----------------+-------------------+---------------------------+
+| name            | CONCAT('$',price) | CONCAT(price*100,'cents') |
++-----------------+-------------------+---------------------------+
+| Hard drive      | $240.000          | 24000.000cents            |
+| Memory          | $120.000          | 12000.000cents            |
+| ZIP drive       | $150.000          | 15000.000cents            |
+| Floppy disk     | $5.000            | 500.000cents              |
+| Monitor         | $240.000          | 24000.000cents            |
+| DVD drive       | $180.000          | 18000.000cents            |
+| CD drive        | $90.000           | 9000.000cents             |
+| Printer         | $270.000          | 27000.000cents            |
+| Toner cartridge | $66.000           | 6600.000cents             |
+| DVD burner      | $180.000          | 18000.000cents            |
++-----------------+-------------------+---------------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select avg(price) from table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'table' at line 1
+MariaDB [mytestdb]> select avg(price) from prod;
++-------------+
+| avg(price)  |
++-------------+
+| 154.1000000 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select MIn(price) from prod;
++------------+
+| MIn(price) |
++------------+
+|      5.000 |
++------------+
+1 row in set (0.27 sec)
+
+MariaDB [mytestdb]> select * from prod;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    1 | Hard drive      | 240.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|   10 | DVD burner      | 180.000 |    2 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select max(price) from products;
+ERROR 1146 (42S02): Table 'mytestdb.products' doesn't exist
+MariaDB [mytestdb]> select max(price) from prod;
++------------+
+| max(price) |
++------------+
+|    270.000 |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select name from prod where code=2;
++--------+
+| name   |
++--------+
+| Memory |
++--------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select avg(price) from prod where manu=2;
++-------------+
+| avg(price)  |
++-------------+
+| 150.0000000 |
++-------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select count(price) from prod where price>=2;
++--------------+
+| count(price) |
++--------------+
+|           10 |
++--------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select *prod;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'prod' at line 1
+MariaDB [mytestdb]> select *from prod;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    1 | Hard drive      | 240.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|   10 | DVD burner      | 180.000 |    2 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select Name From Prod order by name;
++-----------------+
+| Name            |
++-----------------+
+| CD drive        |
+| DVD burner      |
+| DVD drive       |
+| Floppy disk     |
+| Hard drive      |
+| Memory          |
+| Monitor         |
+| Printer         |
+| Toner cartridge |
+| ZIP drive       |
++-----------------+
+10 rows in set (0.03 sec)
+
+MariaDB [mytestdb]> select Name From Prod order by name desc;
++-----------------+
+| Name            |
++-----------------+
+| ZIP drive       |
+| Toner cartridge |
+| Printer         |
+| Monitor         |
+| Memory          |
+| Hard drive      |
+| Floppy disk     |
+| DVD drive       |
+| DVD burner      |
+| CD drive        |
++-----------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select Name From Prod order by name,manu desc;
++-----------------+
+| Name            |
++-----------------+
+| CD drive        |
+| DVD burner      |
+| DVD drive       |
+| Floppy disk     |
+| Hard drive      |
+| Memory          |
+| Monitor         |
+| Printer         |
+| Toner cartridge |
+| ZIP drive       |
++-----------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * From Prod order by name,manu desc;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    7 | CD drive        |  90.000 |    2 |
+|   10 | DVD burner      | 180.000 |    2 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    1 | Hard drive      | 240.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|    3 | ZIP drive       | 150.000 |    4 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * From Prod order by manu desc,name;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    4 | Floppy disk     |   5.000 |    6 |
+|    2 | Memory          | 120.000 |    6 |
+|    1 | Hard drive      | 240.000 |    5 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|    7 | CD drive        |  90.000 |    2 |
+|   10 | DVD burner      | 180.000 |    2 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    5 | Monitor         | 240.000 |    1 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * From Prod order by manu desc,name desc;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    2 | Memory          | 120.000 |    6 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    1 | Hard drive      | 240.000 |    5 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|    8 | Printer         | 270.000 |    3 |
+|    6 | DVD drive       | 180.000 |    2 |
+|   10 | DVD burner      | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    5 | Monitor         | 240.000 |    1 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select  * from  prod where name like '%drive%';
++------+------------+---------+------+
+| code | name       | price   | manu |
++------+------------+---------+------+
+|    1 | Hard drive | 240.000 |    5 |
+|    3 | ZIP drive  | 150.000 |    4 |
+|    6 | DVD drive  | 180.000 |    2 |
+|    7 | CD drive   |  90.000 |    2 |
++------+------------+---------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from prod;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    1 | Hard drive      | 240.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|   10 | DVD burner      | 180.000 |    2 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> update prod set price=500 where name='hard drive';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> select * from prod;
++------+-----------------+---------+------+
+| code | name            | price   | manu |
++------+-----------------+---------+------+
+|    1 | Hard drive      | 500.000 |    5 |
+|    2 | Memory          | 120.000 |    6 |
+|    3 | ZIP drive       | 150.000 |    4 |
+|    4 | Floppy disk     |   5.000 |    6 |
+|    5 | Monitor         | 240.000 |    1 |
+|    6 | DVD drive       | 180.000 |    2 |
+|    7 | CD drive        |  90.000 |    2 |
+|    8 | Printer         | 270.000 |    3 |
+|    9 | Toner cartridge |  66.000 |    3 |
+|   10 | DVD burner      | 180.000 |    2 |
++------+-----------------+---------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> update prod set manu=7 where code=1;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> INSERT INTO  prod VALUES(11,'usb drive',230,7);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO  prod VALUES(11,'usb drive',230,null);
+ERROR 1062 (23000): Duplicate entry '11' for key 'PRIMARY'
+MariaDB [mytestdb]> show create table manu\g;
++-------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                 |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------+
+| manu  | CREATE TABLE `manu` (
+  `code` int(3) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 |
++-------+----------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.03 sec)
+
+ERROR: No query specified
+
+MariaDB [mytestdb]> DELETE from manu where code=1;
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO  manu  VALUES(7,'moxdroid');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> DELETE from manu where code=7;
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> select 8 FROM manu;
++---+
+| 8 |
++---+
+| 8 |
+| 8 |
+| 8 |
+| 8 |
+| 8 |
++---+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * FROM manu;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
+|    6 | Winchester      |
++------+-----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
