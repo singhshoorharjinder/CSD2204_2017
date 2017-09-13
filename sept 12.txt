@@ -1,0 +1,229 @@
+
+Setting environment for using XAMPP for Windows.
+721322@203-IMAC17 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| c072132            |
+| c0721322           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.08 sec)
+
+MariaDB [(none)]> use menagerie;
+Database changed
+MariaDB [menagerie]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.02 sec)
+
+MariaDB [menagerie]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c072132            |
+| c0721322           |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [menagerie]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> show tables;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| manu               |
+| products           |
+| student            |
++--------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT name FROM PRODUCTS; SELECT code FROM manu;
++-----------------+
+| name            |
++-----------------+
+| Hard drive      |
+| Memory          |
+| ZIP drive       |
+| Floppy disk     |
+| Monitor         |
+| DVD drive       |
+| CD drive        |
+| Printer         |
+| Toner cartridge |
+| DVD burner      |
++-----------------+
+10 rows in set (0.03 sec)
+
++------+
+| code |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+5 rows in set (0.01 sec)
+
+MariaDB [mytestdb]> DESC Manu;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| code  | int(3)      | NO   | PRI | NULL    |       |
+| name  | varchar(50) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM MANu;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | lambton         |
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
++------+-----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM PRODUCTS;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
++------+-----------------+-------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT MAnu FROM products WHERE PRICE> 100 GROUP BY manu;
++------+
+| MAnu |
++------+
+| NULL |
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
++------+
+6 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT MAnu FROM products WHERE PRICE> 100 GROUP BY manu Count(*);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Count(*)' at line 1
+MariaDB [mytestdb]> SELECT name FROM manu WHERE code= ( SELECT manu FROM products WHERE price> 200);
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [mytestdb]> SELECT name FROM manu WHERE code IN( SELECT manu FROM products WHERE price> 200);
++-----------------+
+| name            |
++-----------------+
+| lambton         |
+| Hewlett-Packard |
+| Fujitsu         |
++-----------------+
+3 rows in set (0.01 sec)
+
+MariaDB [mytestdb]> SELECT * FROM products;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
++------+-----------------+-------+------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM manu;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | lambton         |
+|    2 | Creative Labs   |
+|    3 | Hewlett-Packard |
+|    4 | Iomega          |
+|    5 | Fujitsu         |
++------+-----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM manu WHERE code IN(SELECT  manu from products WHERE name LIKE'%drive%');
++------+---------------+
+| code | name          |
++------+---------------+
+|    2 | Creative Labs |
+|    4 | Iomega        |
+|    5 | Fujitsu       |
++------+---------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM manu WHERE price =(SELECT   MIN(price) FROM products );
+ERROR 1054 (42S22): Unknown column 'price' in 'where clause'
+MariaDB [mytestdb]> SELECT * FROM products WHERE price =(SELECT   MIN(price) FROM products );
++------+-------------+-------+------+
+| Code | Name        | Price | Manu |
++------+-------------+-------+------+
+|    4 | Floppy disk |     5 | NULL |
++------+-------------+-------+------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM products WHERE price ANY(SELECT   MIN(price) FROM products );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ANY(SELECT   MIN(price) FROM products )' at line 1
+MariaDB [mytestdb]> SELECT * FROM products WHERE price> ANY(SELECT   MIN(price) FROM products );
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
++------+-----------------+-------+------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
