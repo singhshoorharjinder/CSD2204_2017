@@ -1,0 +1,258 @@
+MariaDB [mytestdb]> CREATE TABLE Providers(    Code VARCHAR(50) PRIMARY key NOT NULL,    Name VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+Query OK, 0 rows affected (0.26 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+Query OK, 1 row affected (0.07 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.07 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [mytestdb]> SELECT * FROM PIECES;
++------+----------+
+| code | NAME     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM PROVIDERS;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+MariaDB [mytestdb]> SELECT Piece, AVG(Price)
+    ->     FROM Provides
+    -> GROUP BY Piece;
++-------+------------+
+| Piece | AVG(Price) |
++-------+------------+
+|     1 |  12.500000 |
+|     2 |  16.333333 |
+|     3 |  47.500000 |
+|     4 |   6.000000 |
++-------+------------+
+4 rows in set (0.02 sec)
+
+MariaDB [mytestdb]> SELECT Providers.Name
+    ->    FROM Providers INNER JOIN Provides
+    ->           ON Providers.Code = Provides.Provider
+    ->              AND Provides.Piece = 1;
++--------------------+
+| Name               |
++--------------------+
+| Clarke Enterprises |
+| Susan Calvin Corp. |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>  SELECT Pieces.Name
+    ->    FROM Pieces INNER JOIN Provides
+    ->    ON Pieces.Code = Provides.Piece
+    ->      AND Provides.Provider = 'HAL';
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.00 sec)MariaDB [mytestdb]> 
+SELECT Name
+    ->    FROM Pieces
+    ->    WHERE Code IN
+    ->      (SELECT Piece FROM Provides WHERE Provider = 'HAL');
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Pieces.Name, Providers.Name, Price
+    ->    FROM Pieces INNER JOIN Provides ON Pieces.Code = Piece
+    ->                INNER JOIN Providers ON Providers.Code = Provider
+    ->    WHERE Price =
+    ->    (
+    ->      SELECT MAX(Price) FROM Provides
+    ->      WHERE Piece = Pieces.Code
+    ->    );
++----------+--------------------+-------+
+| Name     | Name               | Price |
++----------+--------------------+-------+
+| Sprocket | Susan Calvin Corp. | 15.00 |
+| Screw    | Clarke Enterprises | 20.00 |
+| Nut      | Susan Calvin Corp. | 50.00 |
+| Bolt     | Susan Calvin Corp. |  7.00 |
++----------+--------------------+-------+
+4 rows in set (0.04 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides
+    ->   VALUES (1, 'TNBC', 7);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [mytestdb]> INSERT * FROM provides;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* FROM provides' at line 1
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides  (code,provider,price) VALUES  (1, 'TNBC', 7);
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [mytestdb]> SELECT * FROM providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  7.00 |
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE Provides SET Price = Price + 1;
+Query OK, 10 rows affected (0.05 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  8.00 |
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
+|    9 |     4 | RBT      |  8.00 |
++------+-------+----------+-------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM Provides
+    ->    WHERE Provider = 'RBT'
+    ->      AND Piece = 4;
+Query OK, 1 row affected (0.11 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  8.00 |
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM provides WHERE provider=4;
+Query OK, 0 rows affected, 9 warnings (0.03 sec)
+
+MariaDB [mytestdb]> SELECT * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  8.00 |
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
