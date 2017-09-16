@@ -1,0 +1,462 @@
+
+Setting environment for using XAMPP for Windows.
+721322@203-IMAC17 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| c072132            |
+| c0721322           |
+| harry              |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> SHOW * FROM products;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* FROM products' at line 1
+MariaDB [mytestdb]> SELECT * FROM PRODUCTS;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
++------+-----------------+-------+------+
+10 rows in set (0.02 sec)
+
+MariaDB [mytestdb]> CREATE VIEW v1 AS SELECT code,name FROM products;
+Query OK, 0 rows affected (0.11 sec)
+
+MariaDB [mytestdb]> desc v1;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| code  | int(11)      | NO   |     | NULL    |       |
+| name  | varchar(255) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+2 rows in set (0.05 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v1;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | Hard drive      |
+|    2 | Memory          |
+|    3 | ZIP drive       |
+|    4 | Floppy disk     |
+|    5 | Monitor         |
+|    6 | DVD drive       |
+|    7 | CD drive        |
+|    8 | Printer         |
+|    9 | Toner cartridge |
+|   10 | DVD burner      |
++------+-----------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE VIEW v2 AS SELECT code,name FROM products WHERE name like '%drive%';
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [mytestdb]> select * from v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO v1 values(8, 'iphone x');
+ERROR 1062 (23000): Duplicate entry '8' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO v1 values(13, 'iphone x');
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v1;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | Hard drive      |
+|    2 | Memory          |
+|    3 | ZIP drive       |
+|    4 | Floppy disk     |
+|    5 | Monitor         |
+|    6 | DVD drive       |
+|    7 | CD drive        |
+|    8 | Printer         |
+|    9 | Toner cartridge |
+|   10 | DVD burner      |
+|   13 | iphone x        |
++------+-----------------+
+11 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM products;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
+|   13 | iphone x        |     0 | NULL |
++------+-----------------+-------+------+
+11 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO v2 values(8, 'iphone x');
+ERROR 1062 (23000): Duplicate entry '8' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO v2 values(13, 'iphone x');
+ERROR 1062 (23000): Duplicate entry '13' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO v2 values(14, 'iphone x');
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+MariaDB [mytestdb]> SELECT  * FROM v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM products;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
+|   13 | iphone x        |     0 | NULL |
+|   14 | iphone x        |     0 | NULL |
++------+-----------------+-------+------+
+12 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE VIEW v3 AS SELECT name FROM products;
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v3;
++-----------------+
+| name            |
++-----------------+
+| Hard drive      |
+| Memory          |
+| ZIP drive       |
+| Floppy disk     |
+| Monitor         |
+| DVD drive       |
+| CD drive        |
+| Printer         |
+| Toner cartridge |
+| DVD burner      |
+| iphone x        |
+| iphone x        |
++-----------------+
+12 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO v3 values( 'iphone x');
+Query OK, 1 row affected, 2 warnings (0.06 sec)
+
+MariaDB [mytestdb]> SELECT * FROM products;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    0 | iphone x        |     0 | NULL |
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
+|   13 | iphone x        |     0 | NULL |
+|   14 | iphone x        |     0 | NULL |
++------+-----------------+-------+------+
+13 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v3;
++-----------------+
+| name            |
++-----------------+
+| iphone x        |
+| Hard drive      |
+| Memory          |
+| ZIP drive       |
+| Floppy disk     |
+| Monitor         |
+| DVD drive       |
+| CD drive        |
+| Printer         |
+| Toner cartridge |
+| DVD burner      |
+| iphone x        |
+| iphone x        |
++-----------------+
+13 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE  v2 SET name='new monitor' WHERE NAME='%monitor%';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [mytestdb]> SELECT * FROM products;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    0 | iphone x        |     0 | NULL |
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    7 | CD drive        |    90 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
+|   13 | iphone x        |     0 | NULL |
+|   14 | iphone x        |     0 | NULL |
++------+-----------------+-------+------+
+13 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM v2 WHERE code=7;
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [mytestdb]> SELECT * FROM v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
++------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SHOW TABLES;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| manu               |
+| pieces             |
+| products           |
+| providers          |
+| provides           |
+| student            |
+| v1                 |
+| v2                 |
+| v3                 |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| c072132            |
+| c0721322           |
+| harry              |
+| information_schema |
+| menagerie          |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> use MENAGERIE;
+Database changed
+MariaDB [MENAGERIE]> show tables;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| pet                 |
++---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [MENAGERIE]> SELECT * FROM PET;
++----------+--------+---------+------+------------+------------+
+| name     | owner  | species | sex  | birth      | death      |
++----------+--------+---------+------+------------+------------+
+| Fluffy   | Harold | cat     | f    | 1993-02-04 | 0000-00-00 |
+| Claws    | Gwen   | cat     | m    | 1994-03-17 | 0000-00-00 |
+| Buffy    | Harold | dog     | f    | 1989-05-13 | 0000-00-00 |
+| Fang     | Benny  | dog     | m    | 1990-08-27 | 0000-00-00 |
+| Bowser   | Diane  | dog     | m    | 1979-08-31 | 1995-07-29 |
+| Chirpy   | Gwen   | bird    | f    | 1998-09-11 | 0000-00-00 |
+| Whistler | Gwen   | bird    |      | 1997-12-09 | 0000-00-00 |
+| Slim     | Benny  | snake   | m    | 1996-04-29 | 0000-00-00 |
++----------+--------+---------+------+------------+------------+
+8 rows in set (0.06 sec)
+
+MariaDB [MENAGERIE]> CREATE VIEW v4 AS SELECT name,owner FROM PET;
+Query OK, 0 rows affected (0.06 sec)
+
+
+MariaDB [MENAGERIE]> CREATE TABLE AUDIT(
+    -> OPID int AUTO_increment PRIMARY KEY,
+    -> tableName VARCHAR(50) NOT NULL,
+    -> opname VARCHAR(10) NOT NULL,
+    -> opDate DATETIME DEFAULT CURRENT_TIMESTAMP);
+Query OK, 0 rows affected (0.33 sec)
+
+MariaDB [MENAGERIE]> DESC AUDIT;
++-----------+-------------+------+-----+-------------------+----------------+
+| Field     | Type        | Null | Key | Default           | Extra          |
++-----------+-------------+------+-----+-------------------+----------------+
+| OPID      | int(11)     | NO   | PRI | NULL              | auto_increment |
+| tableName | varchar(50) | NO   |     | NULL              |                |
+| opname    | varchar(10) | NO   |     | NULL              |                |
+| opDate    | datetime    | YES  |     | CURRENT_TIMESTAMP |                |
++-----------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [MENAGERIE]> INSERT INTO AUDIT ( TABLENAME,OPNAME) VALUES('products','INSERT');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [MENAGERIE]> SELECT * FROM AUDIT;
++------+-----------+--------+---------------------+
+| OPID | tableName | opname | opDate              |
++------+-----------+--------+---------------------+
+|    1 | products  | INSERT | 2017-09-15 19:05:52 |
++------+-----------+--------+---------------------+
+1 row in set (0.00 sec)
+
+
+MariaDB [MENAGERIE]> SELECT CURRENT_DATE();
++----------------+
+| CURRENT_DATE() |
++----------------+
+| 2017-09-15     |
++----------------+
+1 row in set (0.00 sec)
+
+MariaDB [MENAGERIE]> CREATE TABLE DATE( code int, shipment date);
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [MENAGERIE]> DESC date;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| code     | int(11) | YES  |     | NULL    |       |
+| shipment | date    | YES  |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> desc audit;
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(10)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(50) | NO   |     | NULL              |                |
+| Operationdate | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> CREATE TRIGGER Delete_Check_Products AFTER DELETE ON Products
+    -> FOR EACH ROW
+    -> BEGIN
+    -> INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Deletes');
+    -> END;
+    -> //
+Query OK, 0 rows affected (0.08 sec)
+
+MariaDB [mytestdb]> delimiter;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'delimiter' at line 1
+MariaDB [mytestdb]> delimiter ;
+MariaDB [mytestdb]> SELECT * FROM PRODUCTS;
++------+-----------------+-------+------+
+| Code | Name            | Price | Manu |
++------+-----------------+-------+------+
+|    0 | iphone x        |     0 | NULL |
+|    1 | Hard drive      |   240 |    5 |
+|    2 | Memory          |   120 | NULL |
+|    3 | ZIP drive       |   150 |    4 |
+|    4 | Floppy disk     |     5 | NULL |
+|    5 | Monitor         |   240 |    1 |
+|    6 | DVD drive       |   180 |    2 |
+|    8 | Printer         |   270 |    3 |
+|    9 | Toner cartridge |    66 |    3 |
+|   10 | DVD burner      |   180 |    2 |
+|   13 | iphone x        |     0 | NULL |
+|   14 | iphone x        |     0 | NULL |
++------+-----------------+-------+------+
+12 rows in set (0.05 sec)
+
+MariaDB [mytestdb]> DESC AUDIT;
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(10)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(50) | NO   |     | NULL              |                |
+| Operationdate | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
